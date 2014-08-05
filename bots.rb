@@ -17,7 +17,7 @@ Ebooks::Bot.new("wow-rude") do |bot|
   end
 
   bot.on_timeline do |tweet, meta|
-    if rand(1..100) < 3
+    if (rand(1..100) < 3) || tweet[:user][:screen_name] == 'ckolderup'
       bot.reply(tweet, meta[:reply_prefix] + "wow rude")
     end
   end
