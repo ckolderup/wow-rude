@@ -18,8 +18,14 @@ Ebooks::Bot.new("wowwwrude") do |bot|
   end
 
   bot.on_timeline do |tweet, meta|
-    if (rand(1..100) < 5) && bot.twitter.friendship?(tweet[:user][:screen_name], 'wowwwrude')
-      bot.reply(tweet, "@#{tweet[:user][:screen_name]} wow rude")
+    rolled_high = rand(1..100) >= 95
+    follows_me = bot.twitter.friendship?(tweet[:user][:screen_name], 'wowwwrude')
+    if rolled_high
+      if follows_me
+        bot.reply(tweet, "@#{tweet[:user][:screen_name]} wow rude")
+      else
+        puts "rolled high but #{tweet[:user][:screen_name]} doesn't follow me"
+      end
     end
   end
 end
