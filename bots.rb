@@ -2,7 +2,7 @@
 
 require 'twitter_ebooks'
 
-Ebooks::Bot.new("wow-rude") do |bot|
+Ebooks::Bot.new("wowwwrude") do |bot|
   bot.consumer_key = ENV['TWITTER_CONSUMER_KEY']
   bot.consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
   bot.oauth_token = ENV['TWITTER_OAUTH_TOKEN']
