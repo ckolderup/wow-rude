@@ -18,7 +18,7 @@ Ebooks::Bot.new("wowwwrude") do |bot|
   end
 
   bot.on_timeline do |tweet, meta|
-    if (rand(1..100) < 3) || tweet[:user][:screen_name] == 'ckolderup'
+    if (rand(1..100) < 5)
       prefix = meta[:reply_prefix].gsub(/@wowwwrude\s+/, '')
       bot.reply(tweet, prefix + "wow rude")
     end
