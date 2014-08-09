@@ -20,6 +20,10 @@ Ebooks::Bot.new("wowwwrude") do |bot|
   bot.on_timeline do |tweet, meta|
     rolled_high = rand(1..100) >= 95
     follows_me = bot.twitter.friendship?(tweet[:user][:screen_name], 'wowwwrude')
+
+    # skip actual and manual RTs
+    next if tweet[:retweeted_status] || tweet[:text].start_with?('RT')
+
     if rolled_high
       if follows_me
         bot.reply(tweet, "@#{tweet[:user][:screen_name]} wow rude")
