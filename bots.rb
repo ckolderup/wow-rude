@@ -30,6 +30,9 @@ Ebooks::Bot.new("wowwwrude") do |bot|
     # skip ebook bots
     next if tweet[:user][:screen_name].downcase.end_with('_ebooks')
 
+    # skip if recently tweeted
+    next if tweeted.include? tweet[:user][:screen_name]
+
     if rolled_high
       if follows_me
         bot.reply(tweet, "@#{tweet[:user][:screen_name]} wow rude")
