@@ -24,6 +24,9 @@ Ebooks::Bot.new("wowwwrude") do |bot|
     # skip actual and manual RTs
     next if tweet[:retweeted_status] || tweet[:text].start_with?('RT')
 
+    # skip ebook bots
+    next if tweet[:user][:screen_name].downcase.end_with('_ebooks')
+
     if rolled_high
       if follows_me
         bot.reply(tweet, "@#{tweet[:user][:screen_name]} wow rude")
