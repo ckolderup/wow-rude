@@ -8,6 +8,9 @@ Ebooks::Bot.new("wowwwrude") do |bot|
   bot.oauth_token = ENV['TWITTER_OAUTH_TOKEN']
   bot.oauth_token_secret = ENV['TWITTER_OAUTH_SECRET']
 
+  # tracks already tweeted accounts
+  tweeted = Set.new()
+
   bot.on_follow do |user|
     bot.follow(user[:screen_name])
   end
@@ -30,6 +33,7 @@ Ebooks::Bot.new("wowwwrude") do |bot|
     if rolled_high
       if follows_me
         bot.reply(tweet, "@#{tweet[:user][:screen_name]} wow rude")
+        tweeted << tweet[:user][:screen_name]
       else
         puts "rolled high but #{tweet[:user][:screen_name]} doesn't follow me"
       end
@@ -37,7 +41,7 @@ Ebooks::Bot.new("wowwwrude") do |bot|
   end
 
   bot.scheduler.every '1h' do
-    ### Check for follow/unfollow to-dos on schedule:
+    # sync followers every hour
     followers = bot.twitter.followers.map { |x| x[:screen_name] }
     following = bot.twitter.following.map { |x| x[:screen_name] }
     to_follow = followers - following
@@ -46,5 +50,8 @@ Ebooks::Bot.new("wowwwrude") do |bot|
     bot.twitter.unfollow(to_unfollow) unless to_unfollow.empty?
     following -= to_unfollow
     puts "Followed #{to_follow.size}; unfollowed #{to_unfollow.size}."
+
+    # clear out the list of the tweeted every hour
+    tweeted = Set.new()
   end 
 end
