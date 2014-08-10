@@ -35,4 +35,16 @@ Ebooks::Bot.new("wowwwrude") do |bot|
       end
     end
   end
+
+  bot.scheduler.every '1h' do
+    ### Check for follow/unfollow to-dos on schedule:
+    followers = bot.twitter.followers.map { |x| x[:screen_name] }
+    following = bot.twitter.following.map { |x| x[:screen_name] }
+    to_follow = followers - following
+    to_unfollow = following - followers
+    bot.twitter.follow(to_follow) unless to_follow.empty?
+    bot.twitter.unfollow(to_unfollow) unless to_unfollow.empty?
+    following -= to_unfollow
+    puts "Followed #{to_follow.size}; unfollowed #{to_unfollow.size}."
+  end 
 end
