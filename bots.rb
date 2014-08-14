@@ -28,7 +28,7 @@ Ebooks::Bot.new("wowwwrude") do |bot|
     next if tweet[:retweeted_status] || tweet[:text].start_with?('RT')
 
     # skip ebook bots
-    next if tweet[:user][:screen_name].downcase.end_with('_ebooks')
+    next if tweet[:user][:screen_name].downcase.end_with?('_ebooks')
 
     # skip if recently tweeted
     next if tweeted.include? tweet[:user][:screen_name]
