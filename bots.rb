@@ -17,7 +17,7 @@ Ebooks::Bot.new("wowwwrude") do |bot|
 
   bot.on_mention do |tweet, meta|
     prefix = meta[:reply_prefix].gsub(/@wowwwrude\s+/, '')
-    bot.reply(tweet, prefix + "wow rude")
+    bot.reply(tweet, prefix + "wow rude" + get_noise)
   end
 
   bot.on_timeline do |tweet, meta|
@@ -35,7 +35,7 @@ Ebooks::Bot.new("wowwwrude") do |bot|
 
     if rolled_high
       if follows_me
-        bot.reply(tweet, "@#{tweet[:user][:screen_name]} wow rude")
+        bot.reply(tweet, "@#{tweet[:user][:screen_name]} wow rude" + get_noise)
         tweeted << tweet[:user][:screen_name]
       else
         puts "rolled high but #{tweet[:user][:screen_name]} doesn't follow me"
@@ -57,4 +57,9 @@ Ebooks::Bot.new("wowwwrude") do |bot|
     # clear out the list of the tweeted every hour
     tweeted = Set.new()
   end 
+
+  def get_noise
+    #returns rand num of zero width no-break spaces U+FEFF
+    return "\u200B" * rand(1..10)
+  end
 end
